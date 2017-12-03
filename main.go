@@ -2,8 +2,9 @@ package main
 
 import (
 	"./models"
-	//"fmt"
 	//"time"
+	//"fmt"
+	//"./utils"
 )
 
 func main() {
@@ -19,6 +20,6 @@ func main() {
 	//account := models.Accounts{ID: "86f18aaf-3340-40ea-9b04-769c65808d11", UserID: "0b454430-5292-449e-9c84-2ba3e6e6578e", SocialNetwork: "vk", Data: "{}"}
 	//models.Add(account, *db)
 	//accounts, _ := models.GetAccountsByUserID("0b454430-5292-449e-9c84-2ba3e6e6578e", *db)
-	//fmt.Printf("%s", (*accounts)[0].Data)
+	//utils.SendToTelegram("maggy93@mail.ru", *accounts)
 	models.CloseConnection(*db)
 }
