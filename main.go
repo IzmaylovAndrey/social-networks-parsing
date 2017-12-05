@@ -1,14 +1,14 @@
 package main
 
 import (
-	"./models"
+	//"./models"
 	//"time"
 	//"fmt"
-	//"./utils"
+	"./utils"
 )
 
 func main() {
-	db := models.OpenConnection()
+	//db := models.OpenConnection()
 	//models.Migrate(*db)
 	//user := models.Users {ID: "0b454430-5292-449e-9c84-2ba3e6e6578e", Login: "maggy93@mail.ru", PasswordHash: "1234", Salt: "3456", CreatedAt: time.Now()}
 	//models.Create(user, *db)
@@ -21,5 +21,6 @@ func main() {
 	//models.Add(account, *db)
 	//accounts, _ := models.GetAccountsByUserID("0b454430-5292-449e-9c84-2ba3e6e6578e", *db)
 	//utils.SendToTelegram("maggy93@mail.ru", *accounts)
-	models.CloseConnection(*db)
+	//models.CloseConnection(*db)
+	utils.FBSearch("Margarita Tuleninova")
 }

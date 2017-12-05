@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"./../models"
+	"../models"
 	"bytes"
 	"strings"
 	"encoding/json"
