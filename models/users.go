@@ -1,16 +1,18 @@
 package models
 
 import (
-	"time"
-	"github.com/jinzhu/gorm"
 	"fmt"
+	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 type Users struct {
 	ID 				string `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
 	Login 			string
-	PasswordHash 	string
-	Salt 			string
+	Name			string
+	PasswordHash 	string `json:"-"`
+	Salt 			string `json:"-"`
 	CreatedAt 		time.Time
 }
 
@@ -48,7 +50,6 @@ func GetAll (db gorm.DB) (*[]Users, error) {
 		fmt.Printf("User list getting error: %s", err)
 		return nil, err
 	}
-	fmt.Printf("%s", users[0].Login)
 	return &users, nil
 }
 
@@ -62,9 +63,29 @@ func GetAllOrderbyID (db gorm.DB) (*[]Users, error) {
 	return &users, nil
 }
 
+func GetAllOrderbyIDDesc (db gorm.DB) (*[]Users, error) {
+	var users []Users
+	if err := db.Order("id desc").Find(&users).Error; err != nil {
+		fmt.Printf("User list ordered by id getting error: %s", err)
+		return nil, err
+	}
+	fmt.Printf("%s", users[0].Login)
+	return &users, nil
+}
+
 func GetAllOrderbyLogin (db gorm.DB) (*[]Users, error) {
 	var users []Users
 	if err := db.Order("login").Find(&users).Error; err != nil {
+		fmt.Printf("User list ordered by login getting error: %s", err)
+		return nil, err
+	}
+	fmt.Printf("%s", users[0].Login)
+	return &users, nil
+}
+
+func GetAllOrderbyLoginDecs (db gorm.DB) (*[]Users, error) {
+	var users []Users
+	if err := db.Order("login desc").Find(&users).Error; err != nil {
 		fmt.Printf("User list ordered by login getting error: %s", err)
 		return nil, err
 	}
