@@ -36,7 +36,7 @@ type GithubPerson struct {
 }
 
 func GithubSearch(name string) (result []string, err error) {
-	token := "00a9e73c6b67a80ddd2915b38b185c931d510076"
+	token := "4d721ca95335a26b2abf6a3f2b4a93093ac1a6a6"
 
 	response, err := http.Get("https://api.github.com/search/users?q=" + url.QueryEscape(name) + "&per_page=3&access_token=" + token)
 	if err != nil{

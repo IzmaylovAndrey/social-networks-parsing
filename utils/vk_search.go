@@ -9,6 +9,16 @@ import (
 	"strconv"
 )
 
+type VKData struct {
+	Response []json.RawMessage `json:"response"`
+}
+
+type VKPerson struct{
+	UID int `json:"uid"`
+	FirstName string `json:"first_name"`
+	LastName string `json:"last_name"`
+}
+
 func VKSearch(name string) (result []string, err error) {
 	token := "c5d5e9395af600425335104c83d9058be0eca0cca74d291d44798ca4988a358da7d833aad14058e39cf57"
 
@@ -26,17 +36,23 @@ func VKSearch(name string) (result []string, err error) {
 			fmt.Printf("Error getting answer from FB: %s", err)
 			return nil, err
 		}
-		var mapdata map[string]interface{}
+		var mapdata VKData
 
 		err = json.Unmarshal(bodyBytes, &mapdata)
-		if err != nil{
+		if err != nil {
 			fmt.Printf("Error unmarshaling VK answer: %s", err)
 			return nil, err
 		}
 
-		for i := 1; i < len(mapdata["response"].([]interface{})); i++ {
-			id := int(mapdata["response"].([]interface{})[i].(map[string]interface{})["uid"].(float64))
-			result = append(result, "https://vk.com/id" + strconv.Itoa(id))
+		var person VKPerson
+		for _, v := range mapdata.Response {
+
+			err = json.Unmarshal([]byte(v), &person)
+			if err != nil{
+				fmt.Printf("Error unmarshaling VK answer: %s", err)
+				continue
+			}
+			result = append(result, "https://vk.com/id" + strconv.Itoa(person.UID))
 		}
 	}
 	return
