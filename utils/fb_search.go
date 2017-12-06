@@ -23,7 +23,7 @@ type Link struct {
 }
 
 func FBSearch(name string) (result []string, err error) {
-	token := "EAACEdEose0cBALju0qCsGXkVUyaHtcrnfzoFbBWi1D60GFwKMYogxIPbUhBCJM2BIJSECk1ZBQOTkt7fLH1tqlqZCICAGAJVFVZC8AqLlzqRtsgEKQ1Q22IWTZCJd4ZCvYEkBFQpOLTPp6y8WN0fWxdgkGEnvI7AKO5I9EW6IZBbGZCuiF9zJhlMxULmuCZBcRZACnztG7QYPOgZDZD"
+	token := "EAACEdEose0cBADlVArrgPz86FYumZB44zgBFTBpsFVIxZAMahjHtSt2aVmpbUxzbCkzddLTYKcXkdbkvmH5wIrtgFKs4VfS7K1KsE3hCMA5n0C48STz2x5mKV3rfZB8vtcKsRN6x3wahazQRWF9HZB0HjlqcCaBSNzZAnuACStHJgXlgcwAmYZAMMN6TOV470aPVGjANicogZDZD"
 
 	response, err := http.Get("https://graph.facebook.com/search?q=" + url.QueryEscape(name) + "&type=user&limit=3&access_token=" + token)
 	if err != nil{
@@ -47,8 +47,8 @@ func FBSearch(name string) (result []string, err error) {
 			return nil, err
 		}
 
-		for i := 0; i < len(data.FBData); i++ {
-			result = append(result, "https://facebook.com/" + data.FBData[i].ID)
+		for _, v := range data.FBData {
+			result = append(result, "https://facebook.com/" + v.ID)
 		}
 	}
 	return

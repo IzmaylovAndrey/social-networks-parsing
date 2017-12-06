@@ -10,7 +10,7 @@ import (
 )
 
 func VKSearch(name string) (result []string, err error) {
-	token := "54ceb11008989fcdeeb0c69314359535825c690256767793f502e5d82bf96dc4957e2917afb57a975e3ae"
+	token := "c5d5e9395af600425335104c83d9058be0eca0cca74d291d44798ca4988a358da7d833aad14058e39cf57"
 
 	response, err := http.Get("https://api.vk.com/method/users.search?q=" + url.QueryEscape(name) + "&type=user&count=3&access_token=" + token)
 	if err != nil{

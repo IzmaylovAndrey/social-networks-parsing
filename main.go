@@ -4,7 +4,7 @@ import (
 	//"github.com/IzmaylovAndrey/social-networks-parsing/models"
 	//"time"
 	//"fmt"
-	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
+	"./utils"
 	"fmt"
 )
 
@@ -27,5 +27,7 @@ func main() {
 	res, _ := utils.FBSearch("Margarita Tuleninova")
 	fmt.Printf("%s", res)
 	res, _ = utils.VKSearch("Margarita Tuleninova")
+	fmt.Printf("%s", res)
+	res, _ = utils.GithubSearch("Margarita Tuleninova")
 	fmt.Printf("%s", res)
 }
