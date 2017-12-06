@@ -1,14 +1,18 @@
 package main
 
 import (
-	"./models"
+	"github.com/IzmaylovAndrey/social-networks-parsing/routes"
+
+	"github.com/gin-gonic/gin"
+
 	//"time"
+	//"./models"
 	//"fmt"
 	//"./utils"
 )
 
 func main() {
-	db := models.OpenConnection()
+	//db := models.OpenConnection()
 	//models.Migrate(*db)
 	//user := models.Users {ID: "0b454430-5292-449e-9c84-2ba3e6e6578e", Login: "maggy93@mail.ru", PasswordHash: "1234", Salt: "3456", CreatedAt: time.Now()}
 	//models.Create(user, *db)
@@ -21,5 +25,14 @@ func main() {
 	//models.Add(account, *db)
 	//accounts, _ := models.GetAccountsByUserID("0b454430-5292-449e-9c84-2ba3e6e6578e", *db)
 	//utils.SendToTelegram("maggy93@mail.ru", *accounts)
-	models.CloseConnection(*db)
+	//models.CloseConnection(*db)
+
+	router := gin.Default()
+
+	router.GET("/users", routes.GettingAllUsers)
+	router.POST("/users", routes.CreatingUser)
+	router.GET("/users/:id", routes.GettingUserByID)
+	// By default it serves on :8080 unless a
+	// PORT environment variable was defined.
+	router.Run(":8080")
 }
