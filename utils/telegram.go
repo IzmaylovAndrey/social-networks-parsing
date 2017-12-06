@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"./../models"
+	"github.com/IzmaylovAndrey/social-networks-parsing/models"
 	"bytes"
 	"strings"
 	"encoding/json"

@@ -20,12 +20,12 @@ func Add (account Accounts, db gorm.DB) error {
 	return nil
 }
 
-func GetAccountsByUserID (userID string, db gorm.DB) (*[]Accounts, error) {
+func GetAccountsByUserID (userID string, db gorm.DB) ([]Accounts, error) {
 	var accounts []Accounts
 	if err := db.Where("user_id = ?", userID).Find(&accounts).Error; err != nil {
 		fmt.Printf("User list getting error: %s", err)
 		return nil, err
 	}
 	fmt.Printf("%s", accounts[0].UserID)
-	return &accounts, nil
+	return accounts, nil
 }
