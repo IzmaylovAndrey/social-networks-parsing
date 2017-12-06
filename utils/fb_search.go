@@ -4,21 +4,52 @@ import (
 	"net/http"
 	"io/ioutil"
 	"fmt"
+	"net/url"
+	"encoding/json"
 )
 
+type Data struct {
+	Data []Person `json:"data"`
+	Paging Link `json:"paging"`
+}
+
+type Person struct {
+	Name string `json:"name"`
+	ID string `json:"id"`
+}
+
+type Link struct {
+	Next string `json:"next"`
+}
+
 func FBSearch(name string) (result []string, err error) {
-	token := "EAACEdEose0cBAHv8n40uU7KmEKCJbRMiJJ8zQT2vQlsq5q9SNcm63ZBRtYd5KJ2NZCmMYRyWZAjzm3KulmnpZAZC9XNtPPHj0WRCAZANdNRUXEk0JcvwDZCZAZAMwY6UKJxh98dVblqiug0ZCZCQsgcJlcQsH6ZAgSIgXgXsPQoZBjV9LShLFIFgXUMy4T7iLtsOCktQz0eNp7wjSWAZDZD"
-	response, err := http.Get("https://graph.facebook.com/search?q=" + name + "&type=user&access_token=" + token)
+	token := "EAACEdEose0cBAJupgdWdBrHtFPkBdI1RQDaJ7MdPeZCi7ZCNVZAGgxGGmiIOdrBkSqZCb58VZAvuuBnLt5s6QAzzVqaPzSOCbYKRAXCjnHAvvsT3iKshKz4vStORGBPWFNZC9a6Dt6xEw6hnRxpuM3mzLHVaZAZAZBouYjGyZBOhdLr9yb8wUga03YHVwlC9ghRfkcFs3pxKSA1QZDZD"
+
+	response, err := http.Get("https://graph.facebook.com/search?q=" + url.QueryEscape(name) + "&type=user&limit=3&access_token=" + token)
 	if err != nil{
-		fmt.Printf("Error sending message to Telegram: %s", err)
+		fmt.Printf("Error sending request to FB: %s", err)
 		return nil, err
 	}
 	defer response.Body.Close()
-	var res string
+
 	if response.StatusCode == http.StatusOK {
-		bodyBytes, _ := ioutil.ReadAll(response.Body)
-		res = string(bodyBytes)
+		var data Data
+
+		bodyBytes, err := ioutil.ReadAll(response.Body)
+		if err != nil{
+			fmt.Printf("Error getting answer from FB: %s", err)
+			return nil, err
+		}
+
+		err = json.Unmarshal(bodyBytes, &data)
+		if err != nil{
+			fmt.Printf("Error unmarshaling: %s", err)
+			return nil, err
+		}
+
+		for i := 0; i < len(data.Data); i++ {
+			result = append(result, "https://facebook.com/" + data.Data[i].ID)
+		}
 	}
-	fmt.Printf("%s", res)
 	return
 }

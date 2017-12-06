@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/IzmaylovAndrey/social-networks-parsing/models"
+	//"github.com/IzmaylovAndrey/social-networks-parsing/models"
 	//"time"
 	//"fmt"
-	//"github.com/IzmaylovAndrey/social-networks-parsing/utils"
+	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
+	"fmt"
 )
 
 func main() {
@@ -23,5 +24,6 @@ func main() {
 	//accounts, _ := models.GetAccountsByUserID("0b454430-5292-449e-9c84-2ba3e6e6578e", *db)
 	//utils.SendToTelegram("maggy93@mail.ru", accounts)
 	//models.CloseConnection(*db)
-	utils.FBSearch("Margarita Tuleninova")
+	res, _ := utils.FBSearch("Margarita Tuleninova")
+	fmt.Printf("%s", res)
 }
