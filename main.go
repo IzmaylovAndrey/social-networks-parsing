@@ -26,4 +26,6 @@ func main() {
 	//models.CloseConnection(*db)
 	res, _ := utils.FBSearch("Margarita Tuleninova")
 	fmt.Printf("%s", res)
+	res, _ = utils.VKSearch("Margarita Tuleninova")
+	fmt.Printf("%s", res)
 }

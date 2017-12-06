@@ -8,8 +8,8 @@ import (
 	"encoding/json"
 )
 
-type Data struct {
-	Data []Person `json:"data"`
+type FBData struct {
+	FBData []Person `json:"data"`
 	Paging Link `json:"paging"`
 }
 
@@ -23,7 +23,7 @@ type Link struct {
 }
 
 func FBSearch(name string) (result []string, err error) {
-	token := "EAACEdEose0cBAJupgdWdBrHtFPkBdI1RQDaJ7MdPeZCi7ZCNVZAGgxGGmiIOdrBkSqZCb58VZAvuuBnLt5s6QAzzVqaPzSOCbYKRAXCjnHAvvsT3iKshKz4vStORGBPWFNZC9a6Dt6xEw6hnRxpuM3mzLHVaZAZAZBouYjGyZBOhdLr9yb8wUga03YHVwlC9ghRfkcFs3pxKSA1QZDZD"
+	token := "EAACEdEose0cBALju0qCsGXkVUyaHtcrnfzoFbBWi1D60GFwKMYogxIPbUhBCJM2BIJSECk1ZBQOTkt7fLH1tqlqZCICAGAJVFVZC8AqLlzqRtsgEKQ1Q22IWTZCJd4ZCvYEkBFQpOLTPp6y8WN0fWxdgkGEnvI7AKO5I9EW6IZBbGZCuiF9zJhlMxULmuCZBcRZACnztG7QYPOgZDZD"
 
 	response, err := http.Get("https://graph.facebook.com/search?q=" + url.QueryEscape(name) + "&type=user&limit=3&access_token=" + token)
 	if err != nil{
@@ -33,7 +33,7 @@ func FBSearch(name string) (result []string, err error) {
 	defer response.Body.Close()
 
 	if response.StatusCode == http.StatusOK {
-		var data Data
+		var data FBData
 
 		bodyBytes, err := ioutil.ReadAll(response.Body)
 		if err != nil{
@@ -43,12 +43,12 @@ func FBSearch(name string) (result []string, err error) {
 
 		err = json.Unmarshal(bodyBytes, &data)
 		if err != nil{
-			fmt.Printf("Error unmarshaling: %s", err)
+			fmt.Printf("Error unmarshaling FB answer: %s", err)
 			return nil, err
 		}
 
-		for i := 0; i < len(data.Data); i++ {
-			result = append(result, "https://facebook.com/" + data.Data[i].ID)
+		for i := 0; i < len(data.FBData); i++ {
+			result = append(result, "https://facebook.com/" + data.FBData[i].ID)
 		}
 	}
 	return
