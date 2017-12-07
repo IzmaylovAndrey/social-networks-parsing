@@ -10,8 +10,8 @@ import (
 
 type Users struct {
 	ID           string `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
-	Login        string
-	Name         string
+	Login        string	`gorm:"unique;not null"`
+	Name         string	`gorm:"not null"`
 	PasswordHash string `json:"-"`
 	Salt         string `json:"-"`
 	CreatedAt    time.Time
