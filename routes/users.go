@@ -3,6 +3,7 @@ package routes
 import (
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/IzmaylovAndrey/social-networks-parsing/models"
 	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
@@ -66,33 +67,25 @@ func CreatingUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
 
-	vkChanel := make(chan utils.ChanelResult)
-	facebookChanel := make(chan utils.ChanelResult)
-	gitHubChanel := make(chan utils.ChanelResult)
-	go utils.GithubSearch(user.Name, gitHubChanel)
-	go utils.FBSearch(user.Name, facebookChanel)
-	go utils.VKSearch(user.Name, vkChanel)
-
-	errors :=make([]error, 3)
-	select {
-	case data := <-vkChanel:
-		if data.Error != nil{
-			errors = append(errors, data.Error)
-		}
+	wg := sync.WaitGroup{}
+	wg.Add(3)
+	result := utils.APIHandlersResult{}
+	go utils.GithubSearch(user.Name, &result, &wg)
+	go utils.FBSearch(user.Name, &result, &wg)
+	go utils.VKSearch(user.Name, &result, &wg)
+	wg.Wait()
+	fmt.Printf("Result: %v", result)
+	if len(result.Facebook) != 0 {
 		account := models.Accounts{}
-		account.Create(user.ID, "vk", data.Message, *db)
-	case data := <-facebookChanel:
-		if data.Error != nil{
-			errors = append(errors, data.Error)
-		}
+		account.Create(user.ID, "facebook", result.Facebook, *db)
+	}
+	if len(result.Github) != 0 {
 		account := models.Accounts{}
-		account.Create(user.ID, "facebook", data.Message, *db)
-	case data := <-gitHubChanel:
-		if data.Error != nil{
-			errors = append(errors, data.Error)
-		}
+		account.Create(user.ID, "github", result.Github, *db)
+	}
+	if len(result.VK) != 0 {
 		account := models.Accounts{}
-		account.Create(user.ID, "github", data.Message, *db)
+		account.Create(user.ID, "vk", result.VK, *db)
 	}
 
 	if err := utils.SendEmail(user.Login, user.Name); err != nil {
