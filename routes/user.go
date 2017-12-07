@@ -16,9 +16,11 @@ func GettingUserByID(c *gin.Context){
 	user, err := models.GetByID(id, *db)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if user.Login == "" {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
+		return
 	}
 	c.JSON(http.StatusOK, user)
 }

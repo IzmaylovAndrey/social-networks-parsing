@@ -47,23 +47,28 @@ func GettingAllUsers(c *gin.Context) {
 	}
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if len(users) == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
+		return
 	}
 	c.JSON(http.StatusOK, users)
 }
 
 func CreatingUser(c *gin.Context) {
 	var json SignUpJSON
-	if err := c.ShouldBindJSON(json); err != nil {
+	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
+	fmt.Printf("%s", json)
 	db := models.OpenConnection()
 	defer models.CloseConnection(*db)
 	user := models.Users{}
 	if err := user.Create(json.Email, json.Name, json.Password, *db); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	vkChanel := make(chan utils.ChanelResult)
