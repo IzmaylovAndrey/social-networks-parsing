@@ -2,7 +2,6 @@ package routes
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/IzmaylovAndrey/social-networks-parsing/models"
 
@@ -21,33 +20,33 @@ func GettingAllUsers(c *gin.Context) {
 	db := models.OpenConnection()
 	defer models.CloseConnection(*db)
 	var err error
-	var users *[]models.Users
+	var users []models.Users
 	switch orderBy {
 	case "login":
 		if desc == "" || desc == "0" {
-			users, err = models.GetAllOrderbyLogin(*db)
+			users, err = models.GetAllUsersOrderByLogin(*db)
 		} else if desc == "1" {
-			users, err = models.GetAllOrderbyLoginDecs(*db)
+			users, err = models.GetAllUsersOrderByLoginDecs(*db)
 		}
 	case "id":
 		if desc == "" || desc == "0" {
-			users, err = models.GetAllOrderbyID(*db)
+			users, err = models.GetAllUsersOrderByID(*db)
 		} else if desc == "1" {
-			users, err = models.GetAllOrderbyIDDesc(*db)
+			users, err = models.GetAllUsersOrderByIDDesc(*db)
 		}
 	case "created_at":
 		if desc == "" || desc == "0" {
-			users, err = models.GetAllOrderbyCreation(*db)
+			users, err = models.GetAllUsersOrderByCreation(*db)
 		} else if desc == "1" {
-			users, err = models.GetAllOrderbyCreationDesc(*db)
+			users, err = models.GetAllUsersOrderByCreationDesc(*db)
 		}
 	default:
-		users, err = models.GetAll(*db)
+		users, err = models.GetAllUsers(*db)
 	}
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
-	if len(*users) == 0 {
+	if len(users) == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
 	}
 	c.JSON(http.StatusOK, users)
@@ -60,8 +59,8 @@ func CreatingUser(c *gin.Context) {
 	}
 	db := models.OpenConnection()
 	defer models.CloseConnection(*db)
-	user := models.Users{Login:json.Email, PasswordHash:json.Password, Salt:"", CreatedAt:time.Now()}
-	if err := models.Create(user, *db); err != nil {
+	user := models.Users{}
+	if err := user.Create(json.Email, json.Name, json.Password, *db); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
 	//TODO: goroutines with API handlers
