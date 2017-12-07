@@ -1,11 +1,14 @@
 package main
 
 import (
-	//"github.com/IzmaylovAndrey/social-networks-parsing/models"
-	//"time"
-	//"fmt"
-	"./utils"
+	"github.com/IzmaylovAndrey/social-networks-parsing/routes"
+
+	"github.com/gin-gonic/gin"
+
 	"fmt"
+
+	//"time"
+	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
 )
 
 func main() {
@@ -24,6 +27,15 @@ func main() {
 	//accounts, _ := models.GetAccountsByUserID("0b454430-5292-449e-9c84-2ba3e6e6578e", *db)
 	//utils.SendToTelegram("maggy93@mail.ru", accounts)
 	//models.CloseConnection(*db)
+
+	router := gin.Default()
+
+	router.GET("/users", routes.GettingAllUsers)
+	router.POST("/users", routes.CreatingUser)
+	router.GET("/users/:id", routes.GettingUserByID)
+	// By default it serves on :8080 unless a
+	// PORT environment variable was defined.
+	router.Run(":8080")
 	res, _ := utils.FBSearch("Margarita Tuleninova")
 	fmt.Printf("%s", res)
 	res, _ = utils.VKSearch("Margarita Tuleninova")

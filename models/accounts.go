@@ -7,7 +7,7 @@ import (
 
 type Accounts struct {
 	ID       		string `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
-	UserID 			string `gorm:"index;type:uuid"`
+	UserID 			string `gorm:"index;type:uuid" json:"-"`
 	SocialNetwork 	string
 	Data 			string
 }
