@@ -39,7 +39,7 @@ type GithubPerson struct {
 func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) {
 	defer wg.Done()
 	//TODO: error handling
-	token := "4d721ca95335a26b2abf6a3f2b4a93093ac1a6a6"
+	token := "2082d57fef8f7c832f0cc80c6cda3a7cfb74186a"
 
 	response, err := http.Get("https://api.github.com/search/users?q=" + url.QueryEscape(name) + "&per_page=3&access_token=" + token)
 	if err != nil {

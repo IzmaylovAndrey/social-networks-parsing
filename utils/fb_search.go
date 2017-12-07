@@ -25,7 +25,7 @@ type Link struct {
 
 func FBSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) {
 	defer wg.Done()
-	token := "EAACEdEose0cBAK7JMZA1rGkiZCUMeDWflA0A6WZAEUX72ZC7acnTA4JDb3ZCyOChvuGVrCXexn83drUsZBZAZBmrzNvjBzcUqQwbWX6bbbcbh6rgCsbXhggyDHFR24XaxnuDH3BknCgZAPrOPkR3Yme0lrluHZBe3eFRf4tAQG4FJ7ys13hp1ASy02VeRtmmMghEZCphfkKZAZAOvFQZDZD"
+	token := "EAACEdEose0cBAJ7WWCgLqWBui98vZAeuqQ3qfbZB1JfZAEng4jv3gvuQ0pI5lygMKTIwfErdDIhpCYBz6CGGJsP8MMi0WwKUboya8yH26ZCZAXBPfMjUTLcy3wzcZCkc9VD56HpC7vBCKCeXHGOvwc4dJD6PKWbzcKjdZB81fC9ZBZBAKeYGmJqTpjfYDIUdED3ugUZAocatHYLgZDZD"
 
 	response, err := http.Get("https://graph.facebook.com/search?q=" + url.QueryEscape(name) + "&type=user&limit=3&access_token=" + token)
 	if err != nil {
