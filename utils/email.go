@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"gopkg.in/gomail.v2"
 	"fmt"
+
+	"gopkg.in/gomail.v2"
 )
 
 func SendEmail(login string, name string) error {
