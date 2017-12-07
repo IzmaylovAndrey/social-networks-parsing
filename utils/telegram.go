@@ -1,12 +1,13 @@
 package utils
 
 import (
-	"github.com/IzmaylovAndrey/social-networks-parsing/models"
 	"bytes"
-	"strings"
 	"encoding/json"
-	"net/http"
 	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/IzmaylovAndrey/social-networks-parsing/models"
 )
 
 func SendToTelegram (login string, accounts []models.Accounts) error {

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -23,8 +22,8 @@ func (u *Users) Create(login string, name string, password string, db gorm.DB) e
 	u.Login = login
 	u.Name = name
 	u.CreatedAt = time.Now()
-	u.Salt = utils.GenSalt(u.Login, u.Name, u.CreatedAt.Format(time.RFC3339))
-	byteCode := utils.GetByteKey(password, u.Salt)
+	u.Salt = GenSalt(u.Login, u.Name, u.CreatedAt.Format(time.RFC3339))
+	byteCode := GetByteKey(password, u.Salt)
 	u.PasswordHash = base64.StdEncoding.EncodeToString(byteCode)
 
 	return u.insert(db)
