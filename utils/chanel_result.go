@@ -1,6 +1,12 @@
 package utils
 
-type ChanelResult struct {
-	Message []string
-	Error   error
+import "sync"
+
+type APIHandlersResult struct {
+	Facebook []string
+	VK []string
+	Github []string
+	Errors []error
+	sync.Mutex
 }
+
