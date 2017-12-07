@@ -39,9 +39,9 @@ type GithubPerson struct {
 func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) {
 	defer wg.Done()
 	//TODO: error handling
-	token := "2082d57fef8f7c832f0cc80c6cda3a7cfb74186a"
+	token := "11af0444949c31fd56e677d2f212c92976e632d7"
 
-	response, err := http.Get("https://api.github.com/search/users?q=" + url.QueryEscape(name) + "&per_page=3&access_token=" + token)
+	response, err := http.Get("https://api.github.com/search/users?q=" + url.QueryEscape(name) + "&per_page=5&access_token=" + token)
 	if err != nil {
 		fmt.Printf("Error sending request to Github: %s", err)
 		commonResult.Lock()

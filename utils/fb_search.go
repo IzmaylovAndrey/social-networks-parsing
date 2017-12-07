@@ -25,9 +25,9 @@ type Link struct {
 
 func FBSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) {
 	defer wg.Done()
-	token := "EAACEdEose0cBAJ7WWCgLqWBui98vZAeuqQ3qfbZB1JfZAEng4jv3gvuQ0pI5lygMKTIwfErdDIhpCYBz6CGGJsP8MMi0WwKUboya8yH26ZCZAXBPfMjUTLcy3wzcZCkc9VD56HpC7vBCKCeXHGOvwc4dJD6PKWbzcKjdZB81fC9ZBZBAKeYGmJqTpjfYDIUdED3ugUZAocatHYLgZDZD"
+	token := "EAACEdEose0cBABe9ScW8SSDtX9vKJJ1EH2dGc93OYsTkinGnUE3OyxlfVn9lrZC3y8zgCb7ZC0slZAjgJpVSrRKlG76ZBteTpUfZBkmYdKAVSysRBZBt7gnQjibxmrdPMvnM1yMOMwug1hWP3abfKan7dsECRk98kMrkfOSKKIKowfIzz4KsMHEtyo0N6qQr1u3DJSEHZBXhAZDZD"
 
-	response, err := http.Get("https://graph.facebook.com/search?q=" + url.QueryEscape(name) + "&type=user&limit=3&access_token=" + token)
+	response, err := http.Get("https://graph.facebook.com/search?q=" + url.QueryEscape(name) + "&type=user&limit=5&access_token=" + token)
 	if err != nil {
 		fmt.Printf("Error sending request to FB: %s", err)
 		commonResult.Lock()

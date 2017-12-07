@@ -22,9 +22,9 @@ type VKPerson struct {
 
 func VKSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) {
 	defer wg.Done()
-	token := "2e11eacee8ccc36fd2e2d982672e95900e08ed6fff29037ec475b8847ec8ce138305b94df5b95100399b2"
+	token := "912458bce37cdc53a6a87c83931d515a9358964e7e2a31b6eed94f14a676055349180fa571fd10d108546"
 
-	response, err := http.Get("https://api.vk.com/method/users.search?q=" + url.QueryEscape(name) + "&type=user&count=3&access_token=" + token)
+	response, err := http.Get("https://api.vk.com/method/users.search?q=" + url.QueryEscape(name) + "&type=user&count=5&access_token=" + token)
 	if err != nil {
 		fmt.Printf("Error sending request to VK: %s", err)
 		commonResult.Lock()
