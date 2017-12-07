@@ -96,7 +96,13 @@ func CreatingUser(c *gin.Context) {
 	if err := utils.SendEmail(user.Login, user.Name); err != nil {
 		fmt.Printf("Email message for %s was not sent", user.Login)
 	}
-	if err := utils.SendToTelegram(user.Login, user.Accounts); err != nil {
+
+	accounts, err := models.GetAccountsByUserID(user.ID, *db)
+	if err != nil {
+		fmt.Printf("Error while getting user accounts from db - %s", err)
+	}
+
+	if err := utils.SendToTelegram(user.Login, accounts); err != nil {
 		fmt.Printf("Telegram message about %s was not sent", user.Login)
 	}
 	c.JSON(http.StatusCreated, user)
