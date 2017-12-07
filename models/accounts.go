@@ -9,6 +9,7 @@ import (
 
 type Accounts struct {
 	ID            string `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	User      	  Users  `gorm:"ForeignKey:UserID"`
 	UserID        string `gorm:"index;type:uuid" json:"-"`
 	SocialNetwork string
 	Data          string
@@ -32,4 +33,14 @@ func (acc *Accounts) insert(db gorm.DB) error {
 		return err
 	}
 	return nil
+}
+
+func GetAccountsByUserID (userID string, db gorm.DB) ([]Accounts, error) {
+	var accounts []Accounts
+	if err := db.Where("user_id = ?", userID).Find(&accounts).Error; err != nil {
+		fmt.Printf("User list getting error: %s", err)
+		return nil, err
+	}
+	fmt.Printf("%s", accounts[0].UserID)
+	return accounts, nil
 }

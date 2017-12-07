@@ -15,7 +15,7 @@ type Users struct {
 	PasswordHash string `json:"-"`
 	Salt         string `json:"-"`
 	CreatedAt    time.Time
-	Accounts     []Accounts
+	Accounts     []Accounts `json:"-"`
 }
 
 func (u *Users) Create(login string, name string, password string, db gorm.DB) error {
