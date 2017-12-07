@@ -5,9 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"fmt"
+
 	//"time"
 	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
-	"fmt"
 )
 
 func main() {
@@ -38,5 +39,7 @@ func main() {
 	res, _ := utils.FBSearch("Margarita Tuleninova")
 	fmt.Printf("%s", res)
 	res, _ = utils.VKSearch("Margarita Tuleninova")
+	fmt.Printf("%s", res)
+	res, _ = utils.GithubSearch("Margarita Tuleninova")
 	fmt.Printf("%s", res)
 }
