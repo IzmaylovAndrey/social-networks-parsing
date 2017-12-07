@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sync"
 )
 
 type GithubData struct {
@@ -35,37 +36,46 @@ type GithubPerson struct {
 	Score             float64 `json:"score"`
 }
 
-func GithubSearch(name string, ch chan ChanelResult) {
+func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) {
+	defer wg.Done()
 	//TODO: error handling
 	token := "4d721ca95335a26b2abf6a3f2b4a93093ac1a6a6"
 
 	response, err := http.Get("https://api.github.com/search/users?q=" + url.QueryEscape(name) + "&per_page=3&access_token=" + token)
 	if err != nil {
 		fmt.Printf("Error sending request to Github: %s", err)
-		ch <- ChanelResult{nil, err}
+		commonResult.Lock()
+		commonResult.Errors = append(commonResult.Errors, err)
+		commonResult.Unlock()
 	}
 	defer response.Body.Close()
 
-	result := make([]string, 3)
+	var result []string
 	if response.StatusCode == http.StatusOK {
 		var data GithubData
 
 		bodyBytes, err := ioutil.ReadAll(response.Body)
 		if err != nil {
 			fmt.Printf("Error getting answer from GH: %s", err)
-			ch <- ChanelResult{nil, err}
+			commonResult.Lock()
+			commonResult.Errors = append(commonResult.Errors, err)
+			commonResult.Unlock()
 		}
 
 		err = json.Unmarshal(bodyBytes, &data)
 		if err != nil {
 			fmt.Printf("Error unmarshaling GH answer: %s", err)
-			ch <- ChanelResult{nil, err}
+			commonResult.Lock()
+			commonResult.Errors = append(commonResult.Errors, err)
+			commonResult.Unlock()
 		}
 
 		for _, v := range data.Items {
 			result = append(result, "https://github.com/"+v.Login)
 		}
 	}
-	ch <- ChanelResult{result, nil}
+	commonResult.Lock()
+	commonResult.Github = result
+	commonResult.Unlock()
 	return
 }
