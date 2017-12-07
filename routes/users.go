@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/IzmaylovAndrey/social-networks-parsing/models"
+	"github.com/IzmaylovAndrey/social-networks-parsing/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -62,6 +63,11 @@ func CreatingUser(c *gin.Context) {
 	user := models.Users{}
 	if err := user.Create(json.Email, json.Name, json.Password, *db); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+	handlers := make([]func(name string)([]string, error), 4)
+	handlers = append(handlers, utils.FBSearch, utils.GithubSearch, utils.VKSearch)
+	for _,handler := range handlers {
+		go handler(user.Login)
 	}
 	//TODO: goroutines with API handlers
 	//TODO: sending to telegram
