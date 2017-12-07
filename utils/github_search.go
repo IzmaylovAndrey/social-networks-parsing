@@ -1,11 +1,11 @@
 package utils
 
 import (
-	"net/http"
-	"io/ioutil"
-	"fmt"
-	"net/url"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
 type GithubData struct {
