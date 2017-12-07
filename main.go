@@ -27,6 +27,7 @@ func main() {
 	//accounts, _ := models.GetAccountsByUserID("0b454430-5292-449e-9c84-2ba3e6e6578e", *db)
 	//utils.SendToTelegram("maggy93@mail.ru", accounts)
 	//models.CloseConnection(*db)
+	//utils.SendEmail("maggy93@mail.ru", "Margarita Tuleninova")
 
 	router := gin.Default()
 
