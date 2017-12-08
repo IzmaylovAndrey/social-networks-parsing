@@ -47,6 +47,7 @@ func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGro
 		commonResult.Lock()
 		commonResult.Errors = append(commonResult.Errors, err)
 		commonResult.Unlock()
+		return
 	}
 	defer response.Body.Close()
 
@@ -60,6 +61,7 @@ func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGro
 			commonResult.Lock()
 			commonResult.Errors = append(commonResult.Errors, err)
 			commonResult.Unlock()
+			return
 		}
 
 		err = json.Unmarshal(bodyBytes, &data)
@@ -68,6 +70,7 @@ func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGro
 			commonResult.Lock()
 			commonResult.Errors = append(commonResult.Errors, err)
 			commonResult.Unlock()
+			return
 		}
 
 		for _, v := range data.Items {
@@ -77,5 +80,4 @@ func GithubSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGro
 	commonResult.Lock()
 	commonResult.Github = result
 	commonResult.Unlock()
-	return
 }

@@ -30,6 +30,7 @@ func VKSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) 
 		commonResult.Lock()
 		commonResult.Errors = append(commonResult.Errors, err)
 		commonResult.Unlock()
+		return
 	}
 	defer response.Body.Close()
 
@@ -42,6 +43,7 @@ func VKSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) 
 			commonResult.Lock()
 			commonResult.Errors = append(commonResult.Errors, err)
 			commonResult.Unlock()
+			return
 		}
 		var mapdata VKData
 
@@ -51,6 +53,7 @@ func VKSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) 
 			commonResult.Lock()
 			commonResult.Errors = append(commonResult.Errors, err)
 			commonResult.Unlock()
+			return
 		}
 
 		var person VKPerson

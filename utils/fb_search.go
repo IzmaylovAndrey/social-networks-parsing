@@ -47,6 +47,7 @@ func FBSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) 
 			commonResult.Lock()
 			commonResult.Errors = append(commonResult.Errors, err)
 			commonResult.Unlock()
+			return
 		}
 
 		err = json.Unmarshal(bodyBytes, &data)
@@ -55,6 +56,7 @@ func FBSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) 
 			commonResult.Lock()
 			commonResult.Errors = append(commonResult.Errors, err)
 			commonResult.Unlock()
+			return
 		}
 
 		for _, v := range data.FBData {
@@ -64,5 +66,4 @@ func FBSearch(name string, commonResult *APIHandlersResult, wg *sync.WaitGroup) 
 	commonResult.Lock()
 	commonResult.Facebook = result
 	commonResult.Unlock()
-
 }

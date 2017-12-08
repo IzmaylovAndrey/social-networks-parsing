@@ -37,7 +37,7 @@ func GettingAllUsers(c *gin.Context) {
 		} else if desc == "1" {
 			users, err = models.GetAllUsersOrderByIDDesc(*db)
 		}
-	case "created_at":
+	case "createdAt":
 		if desc == "" || desc == "0" {
 			users, err = models.GetAllUsersOrderByCreation(*db)
 		} else if desc == "1" {
